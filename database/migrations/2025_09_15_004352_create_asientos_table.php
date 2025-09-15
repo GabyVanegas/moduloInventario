@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('asientos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('movimiento_id')->nullable()->constrained('movimientos')->nullOnDelete();
-            $table->date('fecha');
-            $table->string('descripcion', 255)->nullable();
-            $table->string('cuenta_debe', 20);
-            $table->string('cuenta_haber', 20);
-            $table->decimal('monto', 15, 2)->default(0);
-            $table->timestamps();
+        if (!Schema::hasTable('asientos')) {
+        Schema::create('asientos', function (Blueprint $t) {
+            $t->id();
+            $t->foreignId('movimiento_id')->nullable()
+              ->constrained('movimientos')->nullOnDelete();
+            $t->date('fecha');
+            $t->string('descripcion',255)->nullable();
+            $t->string('cuenta_debe',20);
+            $t->string('cuenta_haber',20);
+            $t->decimal('monto',15,2)->default(0);
+            $t->timestamps();
         });
+    }
     }
 
     /**
